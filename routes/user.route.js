@@ -1,7 +1,7 @@
 const { Router } = require("express");
 
 const { validation } = require("../middlewares/validation");
-const {esRoleValidator} = require("../helpers/dbvalidators")
+const {esRoleValidator, UserForID} = require("../helpers/dbvalidators")
 
 const {
   usersGet,
@@ -33,7 +33,14 @@ router.post(
 
 router.put("/:id", usersPut);
 
-router.delete("/", usersDelete);
+router.delete("/:id",
+[
+  check('id', "No es un ID Valido ").isMongoId(),
+  check('id').custom(UserForID),
+  validation
+],
+
+usersDelete);
 
 router.patch("/", usersPatch);
 

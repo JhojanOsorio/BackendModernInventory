@@ -1,16 +1,21 @@
-const { response } = require("express");
+const { response, request} = require("express");
 const bcryptjs = require("bcryptjs");
 
 const User = require("../models/users");
 
-const usersGet = (req, res = response) => {
-  const { q, nombre = "No name", apikey } = req.query;
+const usersGet = async (req= request, res = response) => {
+  
+  const query = {estado: true};
+  const {limite = 0, desde = 0} = req.query;
+  const usuarios  = await User.find(query)
+  .skip(Number(desde))
+  .limit(Number(limite));
+
+  const total = await User.countDocuments();
 
   res.json({
-    msg: "get Api - Controlador",
-    q,
-    nombre,
-    apikey,
+    usuarios,
+    total
   });
 };
 
@@ -47,9 +52,14 @@ const usersPut = (req, res = response) => {
   });
 };
 
-const usersDelete = (req, res = response) => {
+const usersDelete = async(req, res = response) => {
+
+  const {id} = req.params;
+
+  const usuario = await  User.findByIdAndUpdate(id, {estado: false});
+  
   res.json({
-    msg: "Delete Api - Controlador",
+  usuario
   });
 };
 

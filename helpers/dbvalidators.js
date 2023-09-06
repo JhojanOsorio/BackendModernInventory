@@ -1,4 +1,5 @@
 const Role = require("../models/role");
+const User = require ("../models/users")
 
 const esRoleValidator = async (role = "") => {
   const existrole = await Role.findOne({ role });
@@ -10,6 +11,17 @@ const esRoleValidator = async (role = "") => {
   }
 };
 
+const UserForID = async (id = "") => {
+  const existuser = await User.findById(id );
+
+ 
+
+  if ( !existuser) {
+    throw new Error(`El id no existe ${id} `);
+  }
+};
+
 module.exports = {
   esRoleValidator,
+ UserForID
 };

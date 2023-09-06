@@ -18,6 +18,12 @@ const UserSchema = Schema({
   img: {
     type: String,
   },
+  estado: {
+    type: Boolean,
+    default: true
+
+
+  }
 });
 
 UserSchema.methods.toJSON = function () {
