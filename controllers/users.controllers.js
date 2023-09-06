@@ -34,7 +34,7 @@ const usersPost = async (req, res = response) => {
   await user1.save();
 
   res.json({
-    user1
+    user1,
   });
 };
 
